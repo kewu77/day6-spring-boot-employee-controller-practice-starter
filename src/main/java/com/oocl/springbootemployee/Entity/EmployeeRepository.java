@@ -63,4 +63,8 @@ public class EmployeeRepository {
         employees.remove(originEmployee);
         return originEmployee;
     }
+
+    public List<Employee> getByPage(Integer page, Integer size) {
+        return employees.stream().skip((long) (page - 1) * size).limit(size).collect(Collectors.toList());
+    }
 }

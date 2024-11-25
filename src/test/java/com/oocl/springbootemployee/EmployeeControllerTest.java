@@ -138,7 +138,7 @@ class EmployeeControllerTest {
         //Given
         List<Employee> employees = employeeRepository.getAll();
         //When
-        String response = client.perform(MockMvcRequestBuilders.delete("/employee/1"))
+        client.perform(MockMvcRequestBuilders.delete("/employee/1"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("tom"))
@@ -148,5 +148,20 @@ class EmployeeControllerTest {
                 .andReturn().getResponse().getContentAsString();
         //Then
         assertEquals(2,employees.size());
+    }
+
+
+    @Test
+    public void should_return_employees_when_get_employee_by_page_given_page_and_size() throws Exception {
+        //Given
+        //When
+        String response = client.perform(MockMvcRequestBuilders.get("/employee").param("page","1").param("size","2"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$",hasSize(2)))
+                .andReturn().getResponse().getContentAsString();
+        //Then
+        List<Employee> resultList = jacksonList.parseObject(response);
+        //Then
+        assertEquals(2,resultList.size());
     }
 }

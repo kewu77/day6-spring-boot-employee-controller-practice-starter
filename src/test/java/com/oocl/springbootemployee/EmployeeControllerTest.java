@@ -4,6 +4,7 @@ import com.oocl.springbootemployee.Entity.Employee;
 import com.oocl.springbootemployee.Entity.EmployeeRepository;
 import com.oocl.springbootemployee.commmon.Gender;
 import jakarta.annotation.Resource;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,6 +21,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -36,6 +38,14 @@ class EmployeeControllerTest {
     private JacksonTester<Employee> jacksonTester;
     @Resource
     private JacksonTester<List<Employee>> jacksonList;
+
+    @BeforeEach
+    public void init(){
+        employeeRepository.setEmployees(new ArrayList<>());
+        employeeRepository.save(new Employee("tom",21, Gender.Male,new BigDecimal(3000)));
+        employeeRepository.save(new Employee("jack",27, Gender.Female,new BigDecimal(7000)));
+        employeeRepository.save(new Employee("kevin",23, Gender.Male,new BigDecimal(13000)));
+    }
 
     @Test
     public void should_return_all_employees_when_get_all_employee_given_exist() throws Exception {
@@ -96,6 +106,30 @@ class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value("Male"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(new BigDecimal(3000)));
         //Then
+    }
 
+    @Test
+    public void should_return_employee_when_update_employee_given_employee() throws Exception {
+        //Given
+        List<Employee> employees = employeeRepository.getAll();
+        String updateEmployee = "{\n" +
+                "    \"id\": 1,\n" +
+                "    \"name\": \"tom\",\n" +
+                "    \"age\": 22,\n" +
+                "    \"gender\": \"Male\",\n" +
+                "    \"salary\": 4000\n" +
+                "}";
+        //When
+        String response = client.perform(MockMvcRequestBuilders.put("/employee").contentType(MediaType.APPLICATION_JSON).content(updateEmployee))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("tom"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(22))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value("Male"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(new BigDecimal(4000)))
+                .andReturn().getResponse().getContentAsString();
+        //Then
+        Employee responseEmployee = jacksonTester.parseObject(response);
+        assertThat(responseEmployee).usingRecursiveComparison().isEqualTo(employees.get(0));
     }
 }

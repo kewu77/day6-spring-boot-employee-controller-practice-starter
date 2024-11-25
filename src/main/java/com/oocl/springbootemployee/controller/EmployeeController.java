@@ -38,4 +38,8 @@ public class EmployeeController {
         return employeeRepository.save(employee);
     }
 
+    @PutMapping
+    @ResponseStatus(HttpStatus.OK)
+    public Employee update(@RequestBody Employee employee){
+        return employeeRepository.update(employee);    }
 }

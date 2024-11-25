@@ -14,13 +14,18 @@ public class EmployeeRepository {
 
     public EmployeeRepository() {
         employees = new ArrayList<>();
-        employees.add(new Employee(1,"tom",21, Gender.Male,new BigDecimal(3000)));
-        employees.add(new Employee(2,"jack",27, Gender.Female,new BigDecimal(7000)));
-        employees.add(new Employee(3,"kevin",23, Gender.Male,new BigDecimal(13000)));
     }
 
     public List<Employee> getAll(){
         return employees;
+    }
+
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
     }
 
     public Employee getById(Integer id){
@@ -40,5 +45,14 @@ public class EmployeeRepository {
         employee.setId(employees.size() + 1);
         employees.add(employee);
         return employee;
+    }
+
+    public Employee update(Employee employee) {
+        Employee originEmployee = employees.stream()
+                .filter(thisEmployee -> thisEmployee.getId().equals(employee.getId()))
+                .findFirst().orElseThrow();
+        originEmployee.setAge(employee.getAge());
+        originEmployee.setSalary(employee.getSalary());
+        return originEmployee;
     }
 }

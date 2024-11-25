@@ -16,8 +16,7 @@ public class Employee {
 
     private BigDecimal salary;
 
-    public Employee(int id, String name, int age, Gender gender, BigDecimal salary) {
-        this.id = id;
+    public Employee(String name, int age, Gender gender, BigDecimal salary) {
         this.name = name;
         this.age = age;
         this.gender = gender;

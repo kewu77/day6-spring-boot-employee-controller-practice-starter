@@ -16,6 +16,8 @@ public class Employee {
 
     private BigDecimal salary;
 
+    private Integer companyId;
+
     public Employee(String name, int age, Gender gender, BigDecimal salary) {
         this.name = name;
         this.age = age;
@@ -61,5 +63,13 @@ public class Employee {
 
     public void setSalary(BigDecimal salary) {
         this.salary = salary;
+    }
+
+    public Integer getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
     }
 }

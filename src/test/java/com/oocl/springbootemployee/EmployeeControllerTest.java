@@ -78,5 +78,24 @@ class EmployeeControllerTest {
         assertEquals(employees.get(2).getId(),resultList.get(1).getId());
     }
 
+    @Test
+    public void should_return_employee_when_create_employee_given_employee() throws Exception {
+        //Given
+        String employee = "{\n" +
+                "    \"name\": \"test\",\n" +
+                "    \"age\": 28,\n" +
+                "    \"gender\": \"Male\",\n" +
+                "    \"salary\": 3000\n" +
+                "}";
+        //When
+        client.perform(MockMvcRequestBuilders.post("/employee").contentType(MediaType.APPLICATION_JSON).content(employee))
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("test"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(28))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value("Male"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(new BigDecimal(3000)));
+        //Then
 
+    }
 }

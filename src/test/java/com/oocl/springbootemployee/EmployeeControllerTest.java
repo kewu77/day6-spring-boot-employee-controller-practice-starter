@@ -132,4 +132,21 @@ class EmployeeControllerTest {
         Employee responseEmployee = jacksonTester.parseObject(response);
         assertThat(responseEmployee).usingRecursiveComparison().isEqualTo(employees.get(0));
     }
+
+    @Test
+    public void should_return_deleted_employee_when_delete_employee_given_id() throws Exception {
+        //Given
+        List<Employee> employees = employeeRepository.getAll();
+        //When
+        String response = client.perform(MockMvcRequestBuilders.delete("/employee/1"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("tom"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(21))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value("Male"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(new BigDecimal(3000)))
+                .andReturn().getResponse().getContentAsString();
+        //Then
+        assertEquals(2,employees.size());
+    }
 }

@@ -55,4 +55,12 @@ public class EmployeeRepository {
         originEmployee.setSalary(employee.getSalary());
         return originEmployee;
     }
+
+    public Employee delete(Integer id) {
+        Employee originEmployee = employees.stream()
+                .filter(thisEmployee -> thisEmployee.getId().equals(id))
+                .findFirst().orElseThrow();
+        employees.remove(originEmployee);
+        return originEmployee;
+    }
 }

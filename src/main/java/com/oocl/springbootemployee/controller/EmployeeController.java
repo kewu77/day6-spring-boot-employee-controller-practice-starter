@@ -41,5 +41,12 @@ public class EmployeeController {
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public Employee update(@RequestBody Employee employee){
-        return employeeRepository.update(employee);    }
+        return employeeRepository.update(employee);
+    }
+
+    @DeleteMapping("/{id}")
+    public Employee delete(@PathVariable Integer id){
+        return employeeRepository.delete(id);
+    }
+
 }

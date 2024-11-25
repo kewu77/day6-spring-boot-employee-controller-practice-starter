@@ -1,7 +1,7 @@
 package com.oocl.springbootemployee;
 
 import com.oocl.springbootemployee.Entity.Employee;
-import com.oocl.springbootemployee.Entity.EmployeeRepository;
+import com.oocl.springbootemployee.repository.EmployeeRepository;
 import com.oocl.springbootemployee.commmon.Gender;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;

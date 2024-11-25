@@ -1,5 +1,6 @@
-package com.oocl.springbootemployee.Entity;
+package com.oocl.springbootemployee.repository;
 
+import com.oocl.springbootemployee.Entity.Employee;
 import com.oocl.springbootemployee.commmon.Gender;
 import org.springframework.stereotype.Repository;
 

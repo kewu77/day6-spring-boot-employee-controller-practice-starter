@@ -1,7 +1,7 @@
 package com.oocl.springbootemployee.controller;
 
 import com.oocl.springbootemployee.Entity.Employee;
-import com.oocl.springbootemployee.Entity.EmployeeRepository;
+import com.oocl.springbootemployee.repository.EmployeeRepository;
 import com.oocl.springbootemployee.commmon.Gender;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
